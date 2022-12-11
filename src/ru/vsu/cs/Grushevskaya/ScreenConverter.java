@@ -72,4 +72,9 @@ public class ScreenConverter {
     public void setHeight(double height) {
         this.height = height;
     }
+
+    public void changeScale(double s) {
+        width *= s;
+        height *= s;
+    }
 }
