@@ -1,4 +1,4 @@
-package ru.vsu.cs.Grushevskaya.LineDrawers;
+package ru.vsu.cs.Grushevskaya.lineDrawers;
 
 public class DDALineDrawer implements LineDrawer {
     private PixelDrawer pd;

@@ -1,4 +1,4 @@
-package ru.vsu.cs.Grushevskaya.LineDrawers;
+package ru.vsu.cs.Grushevskaya.lineDrawers;
 
 import java.awt.*;
 

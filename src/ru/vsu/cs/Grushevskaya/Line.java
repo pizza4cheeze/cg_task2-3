@@ -1,5 +1,7 @@
 package ru.vsu.cs.Grushevskaya;
 
+import ru.vsu.cs.Grushevskaya.screenWork.RealPoint;
+
 public class Line {
     private RealPoint p1, p2;
 

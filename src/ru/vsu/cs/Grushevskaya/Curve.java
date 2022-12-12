@@ -1,50 +1,63 @@
 package ru.vsu.cs.Grushevskaya;
 
-import ru.vsu.cs.Grushevskaya.LineDrawers.PixelDrawer;
+import ru.vsu.cs.Grushevskaya.lineDrawers.PixelDrawer;
+import ru.vsu.cs.Grushevskaya.screenWork.ScreenPoint;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 public class Curve {
-    private List<RealPoint> points;
-    private PixelDrawer pd;
+    private ArrayList<ScreenPoint> points;
 
     public Curve() {
     }
 
-    public Curve(List<RealPoint> points, PixelDrawer pd) {
+    public Curve(ArrayList<ScreenPoint> points) {
         this.points = points;
-        this.pd = pd;
     }
 
-    public List<RealPoint> getPoints() {
+    public ArrayList<ScreenPoint> getPoints() {
         return points;
     }
 
-    public void setPoints(List<RealPoint> points) {
+    public void setPoints(ArrayList<ScreenPoint> points) {
         this.points = points;
     }
 
-    public void drawCurve() {
-        List<RealPoint> currPoints = points;
-        while (currPoints.size() > 2) {
-            for (int i = 0; i < currPoints.size() - 1; i++) {
-                RealPoint pointA = new RealPoint(currPoints.get(i).getX(), currPoints.get(i).getY());
+    public void drawCurve(PixelDrawer pd) {
+        ArrayList<ScreenPoint> currPoints = points;
+        ArrayList<ScreenPoint> decreasedPoints;
+        ArrayList<ScreenPoint> resPoints = new ArrayList<>();
+        for (int i = 0; i < 1000; i++) {
+            decreasedPoints = points;
+            while (decreasedPoints.size() > 1) {
+                currPoints = new ArrayList<>();
+                for (int j = 0; j < decreasedPoints.size() - 1; j++) {
+                    ScreenPoint newPointA = decreasedPoints.get(j);
+                    ScreenPoint newPointB = decreasedPoints.get(j + 1);
+                    int newX = (newPointB.getC() - newPointA.getC()) * i + newPointA.getC();
+                    int newY = (newPointB.getR() - newPointA.getR()) * i + newPointA.getR();
+                    ScreenPoint newPoint = new ScreenPoint(newX, newY);
+                    currPoints.add(newPoint);
+                }
+                decreasedPoints = currPoints;
             }
+            resPoints.add(decreasedPoints.get(0));
+        }
+        for (ScreenPoint s : resPoints) {
+            pd.drawPixel(s.getC(), s.getR());
         }
     }
 
-    public Curve middle(Curve a, Curve b, double t) {
-        List<RealPoint> points = new ArrayList<>();
-        for (int i = 0; i < a.points.size(); i++) {
-            RealPoint newPointA = a.points.get(i);
-            RealPoint newPointB = b.points.get(i);
-            double newX = Math.abs(newPointA.getX() - newPointB.getX()) * t + newPointA.getX();
-            double newY = Math.abs(newPointA.getY() - newPointB.getY()) * t + newPointA.getY();
-            RealPoint newPoint = new RealPoint(newX, newY);
-            points.add(newPoint);
-        }
-        return new Curve(points, pd);
-    }
+//    public Curve middlePoints() {
+//        ArrayList<ScreenPoint> newPoints = new ArrayList<>();
+//        for (int i = 0; i < points.size() - 1; i++) {
+//            ScreenPoint newPointA = points.get(i);
+//            ScreenPoint newPointB = points.get(i + 1);
+//            int newX = (int) ((newPointB.getC() - newPointA.getC()) * t + newPointA.getC());
+//            int newY = (int) ((newPointB.getR() - newPointA.getR()) * t + newPointA.getR());
+//            ScreenPoint newPoint = new ScreenPoint(newX, newY);
+//            newPoints.add(newPoint);
+//        }
+//        return new Curve(newPoints);
+//    }
 }

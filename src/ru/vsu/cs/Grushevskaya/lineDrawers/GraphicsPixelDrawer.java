@@ -1,4 +1,4 @@
-package ru.vsu.cs.Grushevskaya.LineDrawers;
+package ru.vsu.cs.Grushevskaya.lineDrawers;
 
 import java.awt.*;
 
@@ -11,6 +11,6 @@ public class GraphicsPixelDrawer implements PixelDrawer {
 
     @Override
     public void drawPixel(int x, int y) {
-        g2d.fillRect(x, y, 1, 1);
+        g2d.fillRect(x-2, y-2, 4, 4);
     }
 }
