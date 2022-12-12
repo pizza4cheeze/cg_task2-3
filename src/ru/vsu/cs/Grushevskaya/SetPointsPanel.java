@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SetPointsPanel extends JPanel implements MouseListener, MouseMotionListener, MouseWheelListener {
     private ScreenConverter sc;
@@ -41,11 +42,13 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
             ArrayList<ScreenPoint> resultScreenPoints = new ArrayList<>();
 
             for (RealPoint r : startPoints) {
-                startScreenPoints.add(new ScreenPoint((int) r.getX(), (int) r.getY()));
+                //startScreenPoints.add(new ScreenPoint((int) r.getX(), (int) r.getY()));
+                startScreenPoints.add(sc.r2s(r));
             }
 
             for (RealPoint r : resultPoints) {
-                resultScreenPoints.add(new ScreenPoint((int) r.getX(), (int) r.getY()));
+                //resultScreenPoints.add(new ScreenPoint((int) r.getX(), (int) r.getY()));
+                resultScreenPoints.add(sc.r2s(r));
             }
 
             new TransformWindow(startScreenPoints, resultScreenPoints, (int) spinner.getValue());
@@ -75,15 +78,27 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
         drawLine(ldDDA, sc, oy);
 
         g.setColor(Color.RED);
+        List<ScreenPoint> a = new ArrayList<>();
         for (RealPoint r : startPoints) {
             ScreenPoint s = sc.r2s(r);
+            a.add(s);
             g.fillOval(s.getC() - 5, s.getR() - 5,  10, 10);
+        }
+        if (a.size() > 1) {
+            Curve cc = new Curve(a);
+            cc.drawCurve(ldBres);
         }
 
         g.setColor(Color.GREEN);
+        List<ScreenPoint> b = new ArrayList<>();
         for (RealPoint r : resultPoints) {
             ScreenPoint s = sc.r2s(r);
+            b.add(s);
             g.fillOval(s.getC() - 5, s.getR() - 5,  10, 10);
+        }
+        if (b.size() > 1) {
+            Curve cc = new Curve(b);
+            cc.drawCurve(ldDDA);
         }
 
         origG.drawImage(bi, 0, 0, null);
@@ -109,7 +124,7 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        ScreenPoint s = new ScreenPoint(e.getX(), e.getY());
+        /*ScreenPoint s = new ScreenPoint(e.getX(), e.getY());
         RealPoint r = sc.s2r(s);
         if (SwingUtilities.isLeftMouseButton(e)) {
             startPoints.add(r);
@@ -119,14 +134,19 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
             deletePoint(s);
         }
 
-        repaint();
+        repaint();*/
     }
 
     private void deletePoint(ScreenPoint s) {
-        startPoints.removeIf(r -> isNear(sc, r, s, 10));
-        resultPoints.removeIf(r -> isNear(sc, r, s, 10));
+        deletePoint(startPoints, s);
+        deletePoint(resultPoints, s);
+        //startPoints.removeIf(r -> isNear(sc, r, s, 10));
+        //resultPoints.removeIf(r -> isNear(sc, r, s, 10));
     }
 
+    private void deletePoint(List<RealPoint> l, ScreenPoint s) {
+        l.removeIf(r -> isNear(sc, r, s, 10));
+    }
     private ScreenPoint prevPoint = null;
 
     @Override
@@ -134,9 +154,15 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
         ScreenPoint s = new ScreenPoint(e.getX(), e.getY());
         RealPoint r = sc.s2r(s);
         if (SwingUtilities.isLeftMouseButton(e)) {
-            startPoints.add(r);
+            if (e.isControlDown())
+                deletePoint(startPoints, s);
+            else
+                startPoints.add(r);
         } else if (SwingUtilities.isRightMouseButton(e)) {
-            resultPoints.add(r);
+            if (e.isControlDown())
+                deletePoint(resultPoints, s);
+            else
+                resultPoints.add(r);
         } else if (SwingUtilities.isMiddleMouseButton(e)) {
             prevPoint = new ScreenPoint(e.getX(), e.getY());
         }

@@ -11,39 +11,53 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
+import java.util.TimerTask;
 
 public class TransformPanel extends JPanel {
-//    private final double timeToTransform;
+    private final double timeToTransform;
     private double currTime = 0;
+
+    private Timer t;
+    int delay;
 
     CurveConverter curveConverter;
 
     public TransformPanel(ArrayList<ScreenPoint> startPoints, ArrayList<ScreenPoint> resultPoints, int time) {
         setPreferredSize(new Dimension(800, 600));
-        repaint();
+
         add(new JButton("Проверка"));
 
-//        timeToTransform = time;
-//        curveConverter = new CurveConverter(startPoints, resultPoints);
-//
-//        Thread t = new Thread(new Runnable(){
+        timeToTransform = time;
+        delay = (int) timeToTransform;
+        System.out.println(delay);
+        curveConverter = new CurveConverter(startPoints, resultPoints);
+
+        t = new Timer(delay, new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                currTime += timeToTransform / 1000;
+                repaint();
+                if (currTime > 1) {
+                    t.stop();
+                }
+            }
+        });
+        t.start();
+
+//        t = new javax.swing.Timer(delay, new AbstractAction() {
 //            @Override
-//            public void run() {
-//                while(currTime <= timeToTransform) {
+//            public void actionPerformed(ActionEvent e) {
+//                while (currTime <= timeToTransform) {
 //                    currTime += timeToTransform / 1000;
-//                    repaint();
-//                    try {
-//                        Thread.sleep(4);
-//                    } catch (InterruptedException ignored) {}
 //                }
+//                repaint();
 //            }
 //        });
 //        t.start();
-
     }
 
     @Override
-    public void paintComponents(Graphics origG) {
+    public void paintComponent(Graphics origG) {
 //        Graphics2D g2d = (Graphics2D) origG;
 //        origG.fillOval(0, 0, getWidth(), getHeight());
         BufferedImage bi = new BufferedImage(getWidth(), getHeight(), BufferedImage.TYPE_INT_RGB);
@@ -59,7 +73,7 @@ public class TransformPanel extends JPanel {
 
         g.setColor(Color.MAGENTA);
         Curve curve = curveConverter.middle(currTime);
-        curve.drawCurve(pd);
+        curve.drawCurve(ldDDA);
 
         origG.drawImage(bi, 0, 0, null);
         g.dispose();
