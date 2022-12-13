@@ -2,22 +2,19 @@ package ru.vsu.cs.Grushevskaya;
 
 import ru.vsu.cs.Grushevskaya.lineDrawers.*;
 import ru.vsu.cs.Grushevskaya.screenWork.RealPoint;
-import ru.vsu.cs.Grushevskaya.screenWork.ScreenConverter;
 import ru.vsu.cs.Grushevskaya.screenWork.ScreenPoint;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
-import java.util.TimerTask;
 
 public class TransformPanel extends JPanel {
     private final double timeToTransform;
     private double currTime = 0;
 
-    private Timer t;
+    private final Timer t;
     int delay;
 
     CurveConverter curveConverter;
@@ -25,11 +22,8 @@ public class TransformPanel extends JPanel {
     public TransformPanel(ArrayList<ScreenPoint> startPoints, ArrayList<ScreenPoint> resultPoints, int time) {
         setPreferredSize(new Dimension(800, 600));
 
-        add(new JButton("Проверка"));
-
         timeToTransform = time;
         delay = (int) timeToTransform;
-        System.out.println(delay);
         curveConverter = new CurveConverter(startPoints, resultPoints);
 
         t = new Timer(delay, new AbstractAction() {
@@ -70,6 +64,9 @@ public class TransformPanel extends JPanel {
         LineDrawer ldGr = new GraphicsLineDrawer(g);
         LineDrawer ldBres = new BresenhamLineDrawer(pd);
         LineDrawer ldWu = new WuLineDrawer(pd);
+
+//        g.setColor(Color.BLACK);
+//        g.drawString(Double.toString(currTime), 50, 50);
 
         g.setColor(Color.MAGENTA);
         Curve curve = curveConverter.middle(currTime);

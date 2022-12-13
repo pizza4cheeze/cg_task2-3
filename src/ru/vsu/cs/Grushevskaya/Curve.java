@@ -1,7 +1,6 @@
 package ru.vsu.cs.Grushevskaya;
 
 import ru.vsu.cs.Grushevskaya.lineDrawers.LineDrawer;
-import ru.vsu.cs.Grushevskaya.lineDrawers.PixelDrawer;
 import ru.vsu.cs.Grushevskaya.screenWork.RealPoint;
 import ru.vsu.cs.Grushevskaya.screenWork.ScreenPoint;
 

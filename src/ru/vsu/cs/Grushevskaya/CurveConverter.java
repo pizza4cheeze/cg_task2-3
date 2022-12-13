@@ -1,13 +1,8 @@
 package ru.vsu.cs.Grushevskaya;
 
-import ru.vsu.cs.Grushevskaya.lineDrawers.GraphicsPixelDrawer;
-import ru.vsu.cs.Grushevskaya.lineDrawers.PixelDrawer;
-import ru.vsu.cs.Grushevskaya.screenWork.RealPoint;
 import ru.vsu.cs.Grushevskaya.screenWork.ScreenPoint;
 
-import java.awt.*;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 public class CurveConverter {

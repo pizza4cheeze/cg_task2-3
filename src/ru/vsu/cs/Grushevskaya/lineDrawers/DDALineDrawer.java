@@ -26,8 +26,8 @@ public class DDALineDrawer implements LineDrawer {
         }
 
         // Вычисляем приращения на каждом шаге по осям абсцисс и ординат
-        double dX = (double) (x2 - x1) / length;
-        double dY = (double) (y2 - y1) / length;
+        double dX = (double) (x2 - x1) / (length+1);
+        double dY = (double) (y2 - y1) / (length+1);
 
         // Начальные значения
         double x = x1;
@@ -38,7 +38,7 @@ public class DDALineDrawer implements LineDrawer {
         while (length > 0) {
             x += dX;
             y += dY;
-            pd.drawPixel((int) x, (int) y);
+            pd.drawPixel((int) Math.round(x), (int) Math.round(y));
             length--;
         }
     }

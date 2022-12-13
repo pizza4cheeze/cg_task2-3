@@ -1,11 +1,7 @@
 package ru.vsu.cs.Grushevskaya;
 
-import ru.vsu.cs.Grushevskaya.screenWork.RealPoint;
-import ru.vsu.cs.Grushevskaya.screenWork.ScreenPoint;
-
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
 
 public class MainWindow extends JFrame {
     SetPointsPanel setPointsPanel = new SetPointsPanel(this);
