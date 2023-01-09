@@ -86,7 +86,7 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
         }
         if (a.size() > 1) {
             Curve cc = new Curve(a);
-            cc.drawCurve(ldBres);
+            cc.drawCurve(ldWu);
         }
 
         g.setColor(Color.GREEN);
@@ -98,7 +98,7 @@ public class SetPointsPanel extends JPanel implements MouseListener, MouseMotion
         }
         if (b.size() > 1) {
             Curve cc = new Curve(b);
-            cc.drawCurve(ldDDA);
+            cc.drawCurve(ldWu);
         }
 
         origG.drawImage(bi, 0, 0, null);

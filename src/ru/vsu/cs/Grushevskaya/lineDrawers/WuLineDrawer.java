@@ -19,13 +19,17 @@ public class WuLineDrawer implements LineDrawer{
         }
         int dx = x2 - x1;
         int dy = y2 - y1;
+
+        float gradient;
         if (dx == 0 || dy == 0){
             //Не сглаживаем ровно вертикальные и ровно горизонтальные линии
-            return;
-        }
-        float gradient = 0;
-        if (dx > dy){
+            gradient = 1;
+        } else if (dx > dy) {
             gradient = (float) dy / dx;
+        } else gradient = (float) dx / dy;
+
+
+        if (dx > dy) {
             float intery = y1 + gradient;
             pd.drawPixel(x1, y1);
             for (int i = x1; i < x2; ++i) {
@@ -35,12 +39,11 @@ public class WuLineDrawer implements LineDrawer{
             }
             pd.drawPixel(x2, y2);
         } else {
-            gradient = (float) dx/dy;
             float interx = x1 + gradient;
             pd.drawPixel(x1, y1);
             for (int i = y1; i < y2; ++i) {
-                pd.drawPixel((int)interx, i);
-                pd.drawPixel((int)interx+1, i);
+                pd.drawPixel((int) interx, i);
+                pd.drawPixel((int) interx + 1, i);
                 interx+=gradient;
             }
             pd.drawPixel(x2, y2);

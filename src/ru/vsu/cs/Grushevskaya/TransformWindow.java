@@ -8,7 +8,7 @@ import java.util.ArrayList;
 public class TransformWindow extends JFrame {
     public TransformWindow(ArrayList<ScreenPoint> startPoints, ArrayList<ScreenPoint> resultPoints, int time) {
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-        //setTitle("Превращение кривых");
+        setTitle("Превращение кривых");
 
         add(new TransformPanel(startPoints, resultPoints, time));
         pack();

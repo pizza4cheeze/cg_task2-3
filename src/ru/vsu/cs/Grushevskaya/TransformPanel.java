@@ -22,16 +22,18 @@ public class TransformPanel extends JPanel {
     public TransformPanel(ArrayList<ScreenPoint> startPoints, ArrayList<ScreenPoint> resultPoints, int time) {
         setPreferredSize(new Dimension(800, 600));
 
-        timeToTransform = time;
-        delay = (int) timeToTransform;
+        delay = time;
+        timeToTransform = time * 1000;
+        repaint();
+
         curveConverter = new CurveConverter(startPoints, resultPoints);
 
-        t = new Timer(delay, new AbstractAction() {
+        t = new Timer(delay - 1, new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                currTime += timeToTransform / 1000;
+                currTime += delay;
                 repaint();
-                if (currTime > 1) {
+                if (currTime > timeToTransform) {
                     t.stop();
                 }
             }
@@ -65,11 +67,11 @@ public class TransformPanel extends JPanel {
         LineDrawer ldBres = new BresenhamLineDrawer(pd);
         LineDrawer ldWu = new WuLineDrawer(pd);
 
-//        g.setColor(Color.BLACK);
-//        g.drawString(Double.toString(currTime), 50, 50);
+        g.setColor(Color.BLACK);
+        g.drawString("time remaining: " + currTime, 50, 50);
 
         g.setColor(Color.MAGENTA);
-        Curve curve = curveConverter.middle(currTime);
+        Curve curve = curveConverter.middle(currTime / timeToTransform);
         curve.drawCurve(ldDDA);
 
         origG.drawImage(bi, 0, 0, null);
